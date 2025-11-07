@@ -4,7 +4,6 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.chandra.smartparkingslotbookingsystem.model.Booking;
 import org.chandra.smartparkingslotbookingsystem.model.BookingStatus;
-import org.chandra.smartparkingslotbookingsystem.model.ParkingSlot;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -23,18 +22,11 @@ import java.util.stream.Collectors;
 public class BookingRepository {
     private final List<Booking> bookings = new ArrayList<>();
 
-    /**
-     * Logs the initialization of in-memory Booking repository
-     * after the Spring Context is fully loaded
-     */
     @PostConstruct
     public void init() {
         System.out.println("📘 BookingRepository initialized — ready to manage bookings.");
     }
 
-    /**
-     * Clears in-memory data before the Spring context is destroyed
-     */
     @PreDestroy
     public void shutdown() {
         System.out.println("BookingRepository shutting down — clearing in-memory data...");
@@ -42,17 +34,9 @@ public class BookingRepository {
     }
 
     /**
-     * Retrieves the count of bookings available in the repository
-     * @return the number of bookings
-     */
-    public long count() {
-        return bookings.size();
-    }
-
-    /**
-     * Retrieves all the Bookings currently available in the repository
+     * Retrieves all the Bookings currently available in the repository.
      *
-     * @return a new {@link List} containing all stored {@link Booking} objects
+     * @return a new {@link List} containing all stored {@link Booking} objects.
      */
     public List<Booking> findAll() {
         return new ArrayList<>(bookings);
@@ -61,8 +45,8 @@ public class BookingRepository {
     /**
      * Finds a Booking by its unique ID.
      *
-     * @param bookingId the identifier of the Booking to search for
-     * @return an {@link Optional} containing the {@link Booking} if found, otherwise empty
+     * @param bookingId the identifier of the Booking to search for.
+     * @return an {@link Optional} containing the {@link Booking} if found, otherwise empty.
      */
     public Optional<Booking> findById(String bookingId) {
         return bookings.stream()
@@ -71,19 +55,21 @@ public class BookingRepository {
     }
 
     /**
-     * Retrieves all the bookings of an user by the user ID
-     * @param userId the identifier of the user who's bookings are being searched for
-     * @return a new {@link List} containing all the {@link Booking} of the specified user
+     * Retrieves all bookings associated with a user's phone number.
+     *
+     * @param phoneNumber the phone number of the user
+     * @return list of {@link Booking} belonging to that user
      */
-    public List<Booking> findByUserId(String userId) {
+    public List<Booking> findByUserPhone(String phoneNumber) {
         return bookings.stream()
-                .filter(b -> b.getUserId().equalsIgnoreCase(userId))
+                .filter(b -> b.getUserPhone().equalsIgnoreCase(phoneNumber))
                 .collect(Collectors.toList());
     }
 
     /**
-     * Adds a new booking to the repository
-     * @param booking the {@link Booking} instance to be added
+     * Adds a new booking to the repository.
+     *
+     * @param booking the {@link Booking} instance to be added.
      */
     public void save(Booking booking) {
         bookings.add(booking);
@@ -91,9 +77,10 @@ public class BookingRepository {
     }
 
     /**
-     * Updates the status (active/completed/cancelled) of booking, if it exists
-     * @param bookingId the identifier of the booking who's status is to be updated
-     * @param newStatus the new status that is to be set (active/completed/cancelled)
+     * Updates the status (active/completed/cancelled) of booking, if it exists.
+     *
+     * @param bookingId the identifier of the booking whose status is to be updated.
+     * @param newStatus the new {@link BookingStatus} to set.
      */
     public void updateStatus(String bookingId, BookingStatus newStatus) {
         findById(bookingId).ifPresentOrElse(existing -> {
@@ -103,8 +90,9 @@ public class BookingRepository {
     }
 
     /**
-     * Deletes a Booking from the repository, if it exists,else deletion is skipped
-     * @param bookingId the identifier of the booking to be deleted
+     * Deletes a Booking from the repository, if it exists, else deletion is skipped.
+     *
+     * @param bookingId the identifier of the booking to be deleted.
      */
     public void delete(String bookingId) {
         boolean removed = bookings.removeIf(b -> b.getBookingId().equalsIgnoreCase(bookingId));
@@ -113,5 +101,4 @@ public class BookingRepository {
         else
             System.out.printf("Booking %s not found — deletion skipped.%n", bookingId);
     }
-
 }
