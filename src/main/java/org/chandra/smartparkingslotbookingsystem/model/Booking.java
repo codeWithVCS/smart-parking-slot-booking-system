@@ -4,11 +4,14 @@ import java.time.LocalDateTime;
 
 /**
  * Represents a reservation made by a user for a specific parking slot.
- * Stores booking period, status, and computed amount.
+ * Includes user contact and vehicle details in a login-free environment.
  */
 public class Booking {
     private String bookingId;
-    private String userId;
+    private String userName;
+    private String userEmail;
+    private String userPhone;
+    private String vehicleNumber;
     private String slotId;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
@@ -16,9 +19,12 @@ public class Booking {
     private double totalAmount;
 
     public Booking(){}
-    public Booking(String bookingId, String userId, String slotId, LocalDateTime startTime, LocalDateTime endTime,  BookingStatus status, double totalAmount) {
+    public Booking(String bookingId, String userName, String userEmail, String userPhone,String vehicleNumber, String slotId, LocalDateTime startTime, LocalDateTime endTime, BookingStatus status, double totalAmount) {
         this.bookingId = bookingId;
-        this.userId = userId;
+        this.userName = userName;
+        this.userEmail = userEmail;
+        this.userPhone = userPhone;
+        this.vehicleNumber = vehicleNumber;
         this.slotId = slotId;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -28,8 +34,12 @@ public class Booking {
 
     public String getBookingId() {return bookingId;}
     public void setBookingId(String bookingId) {this.bookingId = bookingId;}
-    public String getUserId() {return userId;}
-    public void setUserId(String userId) {this.userId = userId;}
+    public String getUserName() {return userName;}
+    public void setUserName(String userName) {this.userName = userName;}
+    public String getUserEmail() {return userEmail;}
+    public void setUserEmail(String userEmail) {this.userEmail = userEmail;}
+    public String getUserPhone() {return userPhone;}
+    public void setUserPhone(String userPhone) {this.userPhone = userPhone;}
     public String getSlotId() {return slotId;}
     public void setSlotId(String slotId) {this.slotId = slotId;}
     public LocalDateTime getStartTime() {return startTime;}
@@ -43,7 +53,10 @@ public class Booking {
 
     @Override
     public String toString() {
-        return String.format("Booking[%s] Slot=%s | User=%s | Start=%s | End=%s | Status=%s | Amount=%.2f",
-                bookingId, slotId, userId, startTime, endTime, status, totalAmount);
+        return String.format(
+                "Booking[%s] | User: %s (%s, %s) | Vehicle: %s | Slot: %s | " +
+                        "From: %s | To: %s | Status: %s | Amount: ₹%.2f",
+                bookingId, userName, userEmail, userPhone, vehicleNumber,
+                slotId, startTime, endTime, status, totalAmount);
     }
 }
