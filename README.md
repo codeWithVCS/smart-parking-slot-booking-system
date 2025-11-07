@@ -178,8 +178,3 @@ Enter booking end time (HH:mm): 12:00
 Java Backend Developer — passionate about Spring, clean architecture, and backend craftsmanship.
 
 ---
-
-## 📜 Acknowledgment
-
-All hands-on task designs, concepts, and instructions were provided by **ChatGPT (GPT-5)**.
-The implementation, structure, and refinements were coded and tested by **Chandra Sekhar** as part of the Spring Boot Mastery Learning Plan.
